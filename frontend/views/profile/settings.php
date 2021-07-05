@@ -28,7 +28,7 @@ $profile_service = new ProfileService();
                                         <a href="<?php Yii::$app->request->BaseUrl ?>/profile/index<?php if ($pengguna['IDPENGGUNA'] != $_SESSION['id']) { echo "?id=".$pengguna['IDPENGGUNA']; } ?>">Timeline</a>
                                     </li>
                                     <li>
-                                        <a href="<?php Yii::$app->request->BaseUrl ?>/profile/photos<?php if ($pengguna['IDPENGGUNA'] != $_SESSION['id']) { echo "?id=".$pengguna['IDPENGGUNA']; } ?>">Photos</a>
+                                        <a href="#" class="active">Photos</a>
                                     </li>
                                     <li>
                                         <a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/sesi">cek sesi coba</a>
@@ -41,7 +41,7 @@ $profile_service = new ProfileService();
                                         <a href="<?php Yii::$app->request->BaseUrl ?>/profile/followers<?php if ($pengguna['IDPENGGUNA'] != $_SESSION['id']) { echo "?id=".$pengguna['IDPENGGUNA']; } ?>">Followers</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="active">Following</a>
+                                        <a href="<?php Yii::$app->request->BaseUrl ?>/profile/following<?php if ($pengguna['IDPENGGUNA'] != $_SESSION['id']) { echo "?id=".$pengguna['IDPENGGUNA']; } ?>">Following</a>
                                     </li>
                                     <li>
                                         <div class="more">
@@ -115,98 +115,133 @@ $profile_service = new ProfileService();
 
 <div class="container">
     <div class="row">
-        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="ui-block responsive-flex">
+        <div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+            <div class="ui-block">
                 <div class="ui-block-title">
-                    <div class="h6 title"><?php echo $pengguna['NAMA'] . " Following (" . $profile_service->countFollowing($pengguna['IDPENGGUNA']) . ")"; ?></div>
-                    <form class="w-search">
-                        <div class="form-group with-button">
-                            <input class="form-control" type="text" placeholder="Search Friends...">
-                            <button>
-                                <svg class="olymp-magnifying-glass-icon"><use xlink:href="<?php Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
-                            </button>
+                    <h6 class="title">Personal Information</h6>
+                </div>
+                <div class="ui-block-content">
+
+
+                    <!-- Personal Information Form  -->
+
+                    <form method="post" action="<?php echo Yii::$app->request->BaseUrl; ?>/profile/settingsstore">
+                        <?php
+                        echo  Html::hiddenInput(
+                            Yii::$app->request->csrfParam,
+                            Yii::$app->request->csrfToken
+                        );
+                        ?>
+                        <div class="row">
+                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Nama</label>
+                                    <input name="NAMA" class="form-control" placeholder="" type="text" value="<?php echo $pengguna['NAMA']; ?>">
+                                </div>
+
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Email</label>
+                                    <input name="EMAIL" class="form-control" placeholder="" type="email" value="<?php echo $pengguna['EMAIL']; ?>">
+                                </div>
+
+                                <div class="form-group date-time-picker label-floating">
+                                    <label class="control-label">Tanggal Lahir</label>
+                                    <input name="datetimepicker" value="<?php echo date('d/m/Y', strtotime($pengguna['TANGGALLAHIR'])); ?>" />
+                                    <span class="input-group-addon">
+                                        <svg class="olymp-month-calendar-icon icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Alamat</label>
+                                    <input name="ALAMAT" class="form-control" placeholder="" type="text" value="<?php echo $pengguna['ALAMAT']; ?>">
+                                </div>
+
+                                <div class="form-group label-floating is-select">
+                                    <label class="control-label">Jenis Kelamin</label>
+                                    <select class="selectpicker form-control" name="JENISKELAMIN">
+                                        <option value="Laki Laki" <?php if ($pengguna['JENISKELAMIN'] == "Laki Laki"){ echo "selected"; }; ?>>Laki - laki</option>
+                                        <option value="Perempuan" <?php if ($pengguna['JENISKELAMIN'] == "Perempuan"){ echo "selected"; }; ?>>Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Bio</label>
+                                    <textarea class="form-control" placeholder="" name="BIO"><?php echo $pengguna['BIO']; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                <button type="reset" class="btn btn-secondary btn-lg full-width">Reset</button>
+                            </div>
+                            <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                                <button type="submit" class="btn btn-primary btn-lg full-width">Save</button>
+                            </div>
                         </div>
                     </form>
+
+                    <!-- ... end Personal Information Form  -->
                 </div>
+            </div>
+        </div>
+
+        <div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12  responsive-display-none">
+            <div class="ui-block">
+
+
+
+                <!-- Your Profile  -->
+
+                <div class="your-profile">
+                    <div class="ui-block-title ui-block-title-small">
+                        <h6 class="title">Your PROFILE</h6>
+                    </div>
+
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Profile Settings
+                                        <svg class="olymp-dropdown-arrow-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                    </a>
+                                </h6>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                <ul class="your-profile-menu">
+                                    <li>
+                                        <a href="28-YourAccount-PersonalInformation.html">Personal Information</a>
+                                    </li>
+                                    <li>
+                                        <a href="29-YourAccount-AccountSettings.html">Account Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="30-YourAccount-ChangePassword.html">Change Password</a>
+                                    </li>
+                                    <li>
+                                        <a href="31-YourAccount-HobbiesAndInterests.html">Hobbies and Interests</a>
+                                    </li>
+                                    <li>
+                                        <a href="32-YourAccount-EducationAndEmployement.html">Education and Employement</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ... end Your Profile  -->
+
+
             </div>
         </div>
     </div>
 </div>
 
-
-<div class="container">
-    <div class="row">
-        <?php foreach ($followings as $following) { ?>
-            <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-6">
-                <div class="ui-block">
-
-                    <!-- Friend Item -->
-
-                    <div class="friend-item">
-                        <div class="friend-header-thumb">
-                            <img src="<?php Yii::$app->request->BaseUrl ?>/olympus/img/friend1.jpg" alt="friend">
-                        </div>
-
-                        <div class="friend-item-content">
-                            <div class="friend-avatar">
-                                <div class="author-thumb">
-                                    <img src="<?php Yii::$app->request->BaseUrl ?>/olympus/img/avatar1.jpg" alt="author">
-                                </div>
-                                <div class="author-content">
-                                    <a href="#" class="h5 author-name"><?php echo $following['NAMA']; ?></a>
-                                    <div class="country"><?php echo $following['ALAMAT']; ?></div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-container" data-slide="fade">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="friend-count" data-swiper-parallax="-500">
-                                            <a href="#" class="friend-count-item">
-                                                <div class="h6"><?php echo $profile_service->countFollowing($following['IDPENGGUNA']); ?></div>
-                                                <div class="title">Followers</div>
-                                            </a>
-                                            <a href="#" class="friend-count-item">
-                                                <div class="h6"><?php echo $profile_service->countPhotos($following['IDPENGGUNA']); ?></div>
-                                                <div class="title">Photos</div>
-                                            </a>
-                                            <a href="#" class="friend-count-item">
-                                                <div class="h6"><?php echo $profile_service->countPosts($following['IDPENGGUNA']); ?></div>
-                                                <div class="title">Posts</div>
-                                            </a>
-                                        </div>
-<!--                                        <div class="control-block-button" data-swiper-parallax="-100">-->
-<!--                                            <a href="#" class="btn bg-blue">-->
-<!--                                                Follow-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-                                    </div>
-
-                                    <div class="swiper-slide">
-                                        <p class="friend-about align-center" data-swiper-parallax="-500">
-                                            <?php
-                                            if ($following['BIO'] != "") {
-                                                echo $following['BIO'];
-                                            } else {
-                                                echo "Bio doesn't update yet.";
-                                            }
-                                            ?>
-                                        </p>
-
-                                    </div>
-                                </div>
-
-                                <!-- If we need pagination -->
-                                <div class="swiper-pagination"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ... end Friend Item -->			</div>
-            </div>
-        <?php } ?>
-    </div>
-</div>
 
 <!-- Window-popup Update Header Photo -->
 

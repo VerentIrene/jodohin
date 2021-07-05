@@ -75,7 +75,7 @@ class PenggunaController extends Controller
         $model->JENISKELAMIN = $_POST['gender'];
 
 
-        if ($model->save() && isset($_POST['optionsCheckboxes'])) {
+        if ($model->save(false) && isset($_POST['optionsCheckboxes'])) {
             return $this->redirect('../site/landing');
         }
     }
@@ -98,10 +98,10 @@ class PenggunaController extends Controller
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isPost){
-            $foto = UploadedFile::getInstance($model, 'FOTO');
+            $foto = UploadedFile::getInstanceByName('FOTO');
 
             $model->FOTO = $foto;
-            $model->FOTO->saveAs(Yii::getAlias('@folderfoto\fotoprofil'). "/" . $model->FOTO->baseName . '.' .$model->FOTO->extension);
+            $model->FOTO->saveAs(Yii::getAlias('@filePath'). "\profile\\" . $model->FOTO->baseName . '.' .$model->FOTO->extension);
             $model->FOTO = $model->FOTO->baseName.'.'.$model->FOTO->extension;
 
 
@@ -116,15 +116,7 @@ class PenggunaController extends Controller
                 echo "gagal";
             }
 
-
-
-
-        if ($model->save(false)) {
-            return $this->redirect('../profile/index');
-        }else {
-
         }
-    }
 
         return $this->render('update', [
             'model' => $model,
@@ -194,20 +186,20 @@ class PenggunaController extends Controller
 
         $model->IDKEPRIBADIAN = $_SESSION['idkepribadian'];
 
-        if ($model->save()) {
+        if ($model->save(false)) {
             // echo $model->IDKEPRIBADIAN;
             return $this->redirect('../pertanyaan/skor');
         } else
             echo "gagal";
     }
 
-    public function actionProfilepictures()
+    public function actionProfilepictures($id)
     {
-        $model = $this->findModel($_SESSION['id']);
+        $model = $this->findModel($id);
         // $model->FOTO = $_POST['profilepicture'];
 
         if (Yii::$app->request->isPost) {
-            $model->FOTO = UploadedFile::getInstance($model, 'picture');
+            $model->FOTO = UploadedFile::getInstance($model, 'FOTO');
 
 
         // $model->FOTO = UploadedFile::getInstanceByName('profilepicture');
@@ -224,6 +216,27 @@ class PenggunaController extends Controller
             return $this->redirect('../profile/index');
         }
     }}
+    }
+
+    public function actionFotoheader($id){
+        $model = $this->findModel($id);
+
+        if (Yii::$app->request->isPost) {
+            $foto = UploadedFile::getInstanceByName('FOTO');
+
+            $model->FOTOHEADER = $foto;
+            $model->FOTOHEADER->saveAs(Yii::getAlias('@filePath'). "\header\\" . $model->FOTOHEADER->baseName . '.' .$model->FOTOHEADER->extension);
+            $model->FOTOHEADER = $model->FOTOHEADER->baseName.'.'.$model->FOTOHEADER->extension;
+            if ($model->save()) {
+                return $this->redirect('../profile/index');
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+
+
     }
 
     /**

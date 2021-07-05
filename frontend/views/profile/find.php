@@ -1,5 +1,8 @@
 <?php
 use frontend\models\Hubungan;
+use frontend\services\ProfileService;
+
+$profile_service = new ProfileService();
 ?>
 <div class="row">
 <?php
@@ -67,7 +70,7 @@ foreach ($ada as $nilai) {
   										<a href="#" class="friend-count-item">
                         <?php
                         $count = (new \yii\db\Query())
-                          ->from('POST')
+                          ->from('post')
                           ->where(['IDPENGGUNA' => $nilai['IDPENGGUNA']])
                           ->count();
                         ?>
@@ -75,11 +78,15 @@ foreach ($ada as $nilai) {
   											<div class="title">Post</div>
   										</a>
   									</div>
-  									<div class="control-block-button" data-swiper-parallax="-100">
-  										<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/colek?id=<?php echo $nilai['IDPENGGUNA']; ?>" class="btn btn-control bg-purple">
-  											<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-  										</a>
-
+  									<div data-swiper-parallax="-100">
+  										<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/colek?id=<?php echo $nilai['IDPENGGUNA']; ?>" class="btn bg-purple">
+  											Colek
+                                        </a>
+                                        <?php if (!$profile_service->checkFollowers($_SESSION['id'], $nilai['IDPENGGUNA'])): ?>
+                                            <a href="<?php Yii::$app->request->BaseUrl ?>/profile/followgan?id=<?php echo $nilai['IDPENGGUNA'];?>" class="btn bg-blue">
+                                                Follow
+                                            </a>
+                                        <?php endif; ?>
   									</div>
   								</div>
 

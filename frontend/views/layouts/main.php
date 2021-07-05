@@ -103,7 +103,18 @@ AppAsset::register($this);
 
 	<!-- Main Styles CSS -->
  	<link rel="stylesheet" type="text/css" href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/css/main.min.css">
+<style>
+    .image-upload-post > input
+    {
+        display: none;
+    }
 
+    .image-upload-post img
+    {
+        width: 80px;
+        cursor: pointer;
+    }
+</style>
 	<!-- Main Font -->
 	<script src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/js/webfontloader.min.js"></script>
 	<script>
@@ -120,6 +131,7 @@ AppAsset::register($this);
 <body>
 <?php
 $main_services = new MainServices();
+$pengguna = $main_services->getUserDetails($_SESSION['id']);
 ?>
 <!-- Fixed Sidebar Left -->
 
@@ -134,11 +146,11 @@ $main_services = new MainServices();
 
 		<div class="mCustomScrollbar" data-mcs-theme="dark">
 			<ul class="left-menu">
-				<li>
+				<!-- <li>
 					<a href="#" class="js-sidebar-open">
 						<svg class="olymp-menu-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="OPEN MENU"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
 					</a>
-				</li>
+				</li> -->
 				<li>
 					<a href="<?php echo Yii::$app->request->BaseUrl ?>/post">
 						<svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="POST"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-newsfeed-icon"></use></svg>
@@ -150,45 +162,51 @@ $main_services = new MainServices();
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/17-FriendGroups.html">
-						<svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FRIEND GROUPS"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+					<a href="<?php echo Yii::$app->request->BaseUrl ?>/pesan/simulasi">
+						<svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="SIMULASICHAT"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/18-MusicAndPlaylists.html">
-						<svg class="olymp-headphones-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="MUSIC&PLAYLISTS"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-headphones-icon"></use></svg>
+					<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/followers">
+						<svg class="olymp-heart-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FOLLOWERS"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/19-WeatherWidget.html">
-						<svg class="olymp-weather-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="WEATHER APP"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-weather-icon"></use></svg>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/20-CalendarAndEvents-MonthlyCalendar.html">
-						<svg class="olymp-calendar-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="CALENDAR AND EVENTS"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/24-CommunityBadges.html">
-						<svg class="olymp-badge-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Community Badges"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-badge-icon"></use></svg>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/25-FriendsBirthday.html">
-						<svg class="olymp-cupcake-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Friends Birthdays"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-cupcake-icon"></use></svg>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/26-Statistics.html">
-						<svg class="olymp-stats-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Account Stats"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-stats-icon"></use></svg>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/27-ManageWidgets.html">
-						<svg class="olymp-manage-widgets-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Manage Widgets"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-manage-widgets-icon"></use></svg>
-					</a>
-				</li>
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/18-MusicAndPlaylists.html">-->
+<!--						<svg class="olymp-headphones-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="MUSIC&PLAYLISTS"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-headphones-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/19-WeatherWidget.html">-->
+<!--						<svg class="olymp-weather-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="WEATHER APP"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-weather-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/20-CalendarAndEvents-MonthlyCalendar.html">-->
+<!--						<svg class="olymp-calendar-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="CALENDAR AND EVENTS"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/24-CommunityBadges.html">-->
+<!--						<svg class="olymp-badge-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Community Badges"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-badge-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/25-FriendsBirthday.html">-->
+<!--						<svg class="olymp-cupcake-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Friends Birthdays"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-cupcake-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/26-Statistics.html">-->
+<!--						<svg class="olymp-stats-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Account Stats"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-stats-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
+<!--				<li>-->
+<!--					<a href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/27-ManageWidgets.html">-->
+<!--						<svg class="olymp-manage-widgets-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Manage Widgets"><use xlink:href="--><?php //echo Yii::$app->request->BaseUrl ?><!--/olympus/svg-icons/sprites/icons.svg#olymp-manage-widgets-icon"></use></svg>-->
+<!--					</a>-->
+<!--				</li>-->
 			</ul>
 		</div>
 	</div>
@@ -224,8 +242,8 @@ $main_services = new MainServices();
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/17-FriendGroups.html">
-						<svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FRIEND GROUPS"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+					<a href="<?php echo Yii::$app->request->BaseUrl ?>/pesan/simulasi">
+						<svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="SIMULASICHAT"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
 						<span class="left-menu-title">Friend Groups</span>
 					</a>
 				</li>
@@ -320,10 +338,14 @@ $main_services = new MainServices();
 			<div class="control-block">
 				<div class="author-page author vcard inline-items">
 					<div class="author-thumb">
+						<?php if (isset($_SESSION['foto'])) { ?>
+							<img src="<?php echo Yii::$app->request->BaseUrl ?>/foto/profile/1.png?>" class="friend-avatar author-thumb" alt="author">
+						<?php } else { ?>
 						<img alt="author" src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-page.jpg" class="avatar">
 						<span class="icon-status online"></span>
+						<?php } ?>
 					</div>
-					<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile" class="author-name fn">
+					<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index" class="author-name fn">
 						<div class="author-title">
 							d<?php echo $session['nama']; ?>s
 							 <svg class="olymp-dropdown-arrow-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
@@ -436,21 +458,26 @@ $main_services = new MainServices();
 		<div class="mCustomScrollbar" data-mcs-theme="dark">
 			<ul class="chat-users">
                 <?php foreach ($main_services->getFollowers($_SESSION['id']) as $follower) { ?>
-                <li class="inline-items js-chat-open">
-					<div class="author-thumb">
-                        <?php if ($follower['FOTO'] == ""): ?>
-                            <img width="45" src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-main1.jpg" alt="author" class="avatar">
-                        <?php else: ?>
-                            <img width="45" src="<?php echo Yii::$app->request->BaseUrl ?>/foto/post/1.png" alt="author">
-                        <?php endif; ?>
-                        <span class="icon-status online"></span>
-					</div>
-				</li>
+                    <?php if ($main_services->getMutualFollowers($_SESSION['id'], $follower['IDPENGIKUT']) != ""): ?>
+
+                        <li class="inline-items">
+													 <a href="<?php echo Yii::$app->request->BaseUrl ?>/pesan/loadchat?id=<?php echo $follower['IDPENGGUNA'] ?>">
+                            <div class="author-thumb">
+                                <?php if ($follower['FOTO'] == ""): ?>
+                                    <img width="45" src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-main1.jpg" alt="author" class="avatar">
+                                <?php else: ?>
+                                    <img width="45" src="<?php echo Yii::getAlias('@fileUrl') ?>/profile/<?php echo $follower['FOTO']; ?>" alt="author">
+                                <?php endif; ?>
+                                <span class="icon-status online"></span>
+                            </div>
+													</a>
+                        </li>
+                    <?php endif; ?>
                 <?php } ?>
 			</ul>
 		</div>
 
-		<div class="search-friend inline-items">
+		<!-- <div class="search-friend inline-items">
 			<a href="#" class="js-sidebar-open">
 				<svg class="olymp-menu-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
 			</a>
@@ -458,7 +485,7 @@ $main_services = new MainServices();
 
 		<a href="#" class="olympus-chat inline-items js-chat-open">
 			<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-		</a>
+		</a> -->
 
 	</div>
 
@@ -473,6 +500,7 @@ $main_services = new MainServices();
 
 			<ul class="chat-users">
                 <?php foreach ($main_services->getFollowers($_SESSION['id']) as $follower) { ?>
+                    <?php if ($main_services->getMutualFollowers($_SESSION['id'], $follower['IDPENGIKUT']) != ""): ?>
                     <li class="inline-items js-chat-open">
                         <div class="author-thumb">
                             <?php if ($follower['FOTO'] == ""): ?>
@@ -507,16 +535,16 @@ $main_services = new MainServices();
                         </div>
 
                     </li>
+                    <?php endif; ?>
                 <?php } ?>
 			</ul>
-
 		</div>
 
-		<a href="#" class="olympus-chat inline-items js-chat-open">
+		<!-- <a href="#" class="olympus-chat inline-items js-chat-open">
 
-			<h6 class="olympus-chat-title">OLYMPUS CHAT</h6>
+			<h6 class="olympus-chat-title">JODOHIN CHAT</h6>
 			<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-		</a>
+		</a> -->
 
 	</div>
 </div>
@@ -549,16 +577,16 @@ $main_services = new MainServices();
 	</div>
 	</a>
 	<div class="header-content-wrapper">
-		<form class="search-bar w-search notification-list friend-requests">
+		<!-- <form class="search-bar w-search notification-list friend-requests">
 			<div class="form-group with-button">
 				<input class="form-control js-user-search" placeholder="Search here people or pages..." type="text">
 				<button>
 					<svg class="olymp-magnifying-glass-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
 				</button>
 			</div>
-		</form>
+		</form> -->
 
-		<a href="#" class="link-find-friend">Find Friends</a>
+		<!-- <a href="#" class="link-find-friend">Find Friends</a> -->
 
 		<div class="control-block">
 
@@ -569,28 +597,30 @@ $main_services = new MainServices();
 				<div class="more-dropdown more-with-triangle triangle-top-center">
 					<div class="ui-block-title ui-block-title-small">
 						<h6 class="title">FRIEND REQUESTS</h6>
-						<a href="#">Find Friends</a>
-						<a href="#">Settings</a>
+						<!-- <a href="#">Find Friends</a> -->
+						<!-- <a href="#">Settings</a> -->
 					</div>
 
 					<div class="mCustomScrollbar" data-mcs-theme="dark">
 						<ul class="notification-list friend-requests">
+							<?php foreach ($main_services->bacaColek() as $colekan) { ?>
+								<?php $data = $main_services->bacaUser($colekan['IDPENGIRIMNOTIF']); ?>
 								<li>
 									<div class="author-thumb">
 										<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar55-sm.jpg" alt="author">
 									</div>
 									<div class="notification-event">
-										<a href="#" class="h6 notification-friend">Tamara Romanoff</a>
-										<span class="chat-message-item">Mutual Friend: Sarah Hetfield</span>
+										<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA']; ?></a>
+										<span class="chat-message-item"><?php echo $colekan['ISI']; ?></span>
 									</div>
 									<span class="notification-icon">
-										<a href="#" class="accept-request">
+										<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/terimacolek?id=<?php echo $colekan['IDNOTIFIKASI'] ?>" class="accept-request">
 											<span class="icon-add without-text">
 												<svg class="olymp-happy-face-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
 											</span>
 										</a>
 
-										<a href="#" class="accept-request request-del">
+										<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/tolakcolek?id=<?php echo $colekan['IDNOTIFIKASI'] ?>" class="accept-request request-del">
 											<span class="icon-minus">
 												<svg class="olymp-happy-face-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
 											</span>
@@ -602,6 +632,7 @@ $main_services = new MainServices();
 										<svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
 									</div> -->
 								</li>
+							<?php } ?>
 						</ul>
 					</div>
 
@@ -616,46 +647,35 @@ $main_services = new MainServices();
 				<div class="more-dropdown more-with-triangle triangle-top-center">
 					<div class="ui-block-title ui-block-title-small">
 						<h6 class="title">Chat / Messages</h6>
-						<a href="#">Mark all as read</a>
-						<a href="#">Settings</a>
+						<!-- <a href="#">Mark all as read</a>
+						<a href="#">Settings</a> -->
 					</div>
 
 					<div class="mCustomScrollbar" data-mcs-theme="dark">
 						<ul class="notification-list chat-message">
+								<?php foreach ($main_services->bacaNotifPesan() as $notifPesan) { ?>
+									<?php $data = $main_services->bacaUser($notifPesan['IDPENGIRIMNOTIF']); ?>
 							<li class="message-unread">
+
 								<div class="author-thumb">
 									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar59-sm.jpg" alt="author">
 								</div>
 								<div class="notification-event">
-									<a href="#" class="h6 notification-friend">Diana Jameson</a>
-									<span class="chat-message-item">Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...</span>
+									<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA'] ?></a>
+									<span class="chat-message-item"><?php echo $notifPesan['ISI'] ?></span>
 									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
-								</div>
+								</div><a href="<?php echo Yii::$app->request->BaseUrl ?>/pesan/loadchat?id=<?php echo $data['IDPENGGUNA'] ?>">
 								<span class="notification-icon">
 									<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
 								</span>
+								</a>
 								<!-- <div class="more">
 									<svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
 								</div> -->
+
 							</li>
 
-							<li>
-								<div class="author-thumb">
-									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar60-sm.jpg" alt="author">
-								</div>
-								<div class="notification-event">
-									<a href="#" class="h6 notification-friend">Jake Parker</a>
-									<span class="chat-message-item">Great, I’ll see you tomorrow!.</span>
-									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
-								</div>
-								<span class="notification-icon">
-									<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-								</span>
-
-								<!-- <div class="more">
-									<svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
-								</div> -->
-							</li>
+						<?php } ?>
 						</ul>
 					</div>
 
@@ -670,19 +690,21 @@ $main_services = new MainServices();
 				<div class="more-dropdown more-with-triangle triangle-top-center">
 					<div class="ui-block-title ui-block-title-small">
 						<h6 class="title">Notifications</h6>
-						<a href="#">Mark all as read</a>
-						<a href="#">Settings</a>
+						<!-- <a href="#">Mark all as read</a>
+						<a href="#">Settings</a> -->
 					</div>
 
 					<div class="mCustomScrollbar" data-mcs-theme="dark">
 						<ul class="notification-list">
+								<?php foreach ($main_services->bacaNotifLain() as $notifLain) { ?>
+									<?php $data = $main_services->bacaUser($notifLain['IDPENGIRIMNOTIF']); ?>
 							<li>
 								<div class="author-thumb">
 									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar62-sm.jpg" alt="author">
 								</div>
 								<div class="notification-event">
-									<div><a href="#" class="h6 notification-friend">Mathilda Brinker</a> commented on your new <a href="#" class="notification-link">profile status</a>.</div>
-									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
+									<div><a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA'] ?> </a> <?php echo $notifLain['ISI'] ?> </div>
+									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18"><?php echo $notifLain['WAKTUNOTIFIKASI'] ?></time></span>
 								</div>
 									<span class="notification-icon">
 										<svg class="olymp-comments-post-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
@@ -693,48 +715,7 @@ $main_services = new MainServices();
 									<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
 								</div>
 							</li>
-
-							<li class="un-read">
-								<div class="author-thumb">
-									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar63-sm.jpg" alt="author">
-								</div>
-								<div class="notification-event">
-									<div>You and <a href="#" class="h6 notification-friend">Nicholas Grissom</a> just became friends. Write on <a href="#" class="notification-link">his wall</a>.</div>
-									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">9 hours ago</time></span>
-								</div>
-									<span class="notification-icon">
-										<svg class="olymp-happy-face-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-									</span>
-
-								<div class="more">
-									<!-- <svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg> -->
-									<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
-								</div>
-							</li>
-
-							<li class="with-comment-photo">
-								<div class="author-thumb">
-									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar64-sm.jpg" alt="author">
-								</div>
-								<div class="notification-event">
-									<div><a href="#" class="h6 notification-friend">Sarah Hetfield</a> commented on your <a href="#" class="notification-link">photo</a>.</div>
-									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 5:32am</time></span>
-								</div>
-									<span class="notification-icon">
-										<svg class="olymp-comments-post-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
-									</span>
-
-								<div class="comment-photo">
-									<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/comment-photo1.jpg" alt="photo">
-									<span>“She looks incredible in that outfit! We should see each...”</span>
-								</div>
-
-								<div class="more">
-									<!-- <svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg> -->
-									<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
-								</div>
-							</li>
-
+						<?php } ?>
 						</ul>
 					</div>
 
@@ -744,7 +725,13 @@ $main_services = new MainServices();
 
 			<div class="author-page author vcard inline-items more">
 				<div class="author-thumb">
-					<img alt="author" src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-page.jpg" class="avatar">
+						<?php if (isset($pengguna['FOTO'])) { ?>
+							<img width="45" height="45" src="<?php echo Yii::getAlias('@fileUrl') ?>/profile/<?php echo $pengguna['FOTO']?>" class="avatar" alt="author">
+						<?php } else { ?>
+						<img alt="author" src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-page.jpg" class="avatar">
+						<span class="icon-status online"></span>
+						<?php } ?>
+
 					<span class="icon-status online"></span>
 					<div class="more-dropdown more-with-triangle">
 						<div class="mCustomScrollbar" data-mcs-theme="dark">
@@ -774,7 +761,7 @@ $main_services = new MainServices();
 
 					</div>
 				</div>
-				<a href="02-ProfilePage.html" class="author-name fn">
+				<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index" class="author-name fn">
 					<div class="author-title">
 							<?php echo $session['nama']; ?>
 						<svg class="olymp-dropdown-arrow-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
@@ -824,12 +811,12 @@ $main_services = new MainServices();
 				</a>
 			</li>
 
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" data-toggle="tab" href="#search" role="tab">
 					<svg class="olymp-magnifying-glass-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
 					<svg class="olymp-close-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
 				</a>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 
@@ -841,17 +828,17 @@ $main_services = new MainServices();
 			<div class="mCustomScrollbar" data-mcs-theme="dark">
 				<div class="ui-block-title ui-block-title-small">
 					<h6 class="title">Pemintaan Hubungan</h6>
-					<a href="#">Permintaan Hubungan</a>
-					<a href="#">Settings</a>
 				</div>
 				<ul class="notification-list friend-requests">
+					<?php foreach ($main_services->bacaColek() as $colekan) { ?>
+						<?php $data = $main_services->bacaUser($colekan['IDPENGIRIMNOTIF']); ?>
 					<li>
 						<div class="author-thumb">
 							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar55-sm.jpg" alt="author">
 						</div>
 						<div class="notification-event">
-							<a href="#" class="h6 notification-friend">Tamara Romanoff</a>
-							<span class="chat-message-item">Mutual Friend: Sarah Hetfield</span>
+							<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA'] ?></a>
+							<span class="chat-message-item"><?php echo $colekan['ISI'] ?></span>
 						</div>
 									<span class="notification-icon">
 										<a href="#" class="accept-request">
@@ -872,6 +859,7 @@ $main_services = new MainServices();
 							<svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
 						</div> -->
 					</li>
+				<?php } ?>
 				</ul>
 				<!-- <a href="#" class="view-all bg-blue">Check all your Events</a> -->
 			</div>
@@ -883,38 +871,27 @@ $main_services = new MainServices();
 			<div class="mCustomScrollbar" data-mcs-theme="dark">
 				<div class="ui-block-title ui-block-title-small">
 					<h6 class="title">Chat / Messages</h6>
-					<a href="#">Mark all as read</a>
-					<a href="#">Settings</a>
+					<!-- <a href="#">Mark all as read</a>
+					<a href="#">Settings</a> -->
 				</div>
 
 				<ul class="notification-list chat-message">
+					<?php foreach ($main_services->bacaNotifPesan() as $notifPesan) { ?>
+						<?php $data = $main_services->bacaUser($notifPesan['IDPENGIRIMNOTIF']); ?>
 					<li class="message-unread">
 						<div class="author-thumb">
 							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar59-sm.jpg" alt="author">
 						</div>
 						<div class="notification-event">
-							<a href="#" class="h6 notification-friend">Diana Jameson</a>
-							<span class="chat-message-item">Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...</span>
+							<a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA'] ?></a>
+							<span class="chat-message-item"><?php $notifPesan['ISI'] ?></span>
 							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
-						</div>
+						</div><a href="<?php echo Yii::$app->request->BaseUrl ?>/pesan/loadchat?id=<?php echo $data['IDPENGGUNA'] ?>">
 									<span class="notification-icon">
 										<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-									</span>
+									</span></a>
 					</li>
-
-					<li>
-						<div class="author-thumb">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar60-sm.jpg" alt="author">
-						</div>
-						<div class="notification-event">
-							<a href="#" class="h6 notification-friend">Jake Parker</a>
-							<span class="chat-message-item">Great, I’ll see you tomorrow!.</span>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
-						</div>
-									<span class="notification-icon">
-										<svg class="olymp-chat---messages-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-									</span>
-					</li>
+				<?php } ?>
 				</ul>
 
 				<!-- <a href="#" class="view-all bg-purple">View All Messages</a> -->
@@ -927,18 +904,20 @@ $main_services = new MainServices();
 			<div class="mCustomScrollbar" data-mcs-theme="dark">
 				<div class="ui-block-title ui-block-title-small">
 					<h6 class="title">Notifications</h6>
-					<a href="#">Mark all as read</a>
-					<a href="#">Settings</a>
+					<!-- <a href="#">Mark all as read</a>
+					<a href="#">Settings</a> -->
 				</div>
 
 				<ul class="notification-list">
-					<li>
+							<?php foreach ($main_services->bacaNotifLain() as $notifLain) { ?>
+								<?php $data = $main_services->bacaUser($notifLain['IDPENGIRIMNOTIF']); ?>
+					<li class="un-read">
 						<div class="author-thumb">
 							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar62-sm.jpg" alt="author">
 						</div>
 						<div class="notification-event">
-							<div><a href="#" class="h6 notification-friend">Mathilda Brinker</a> commented on your new <a href="#" class="notification-link">profile status</a>.</div>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
+							<div><a href="<?php echo Yii::$app->request->BaseUrl ?>/profile/index?id=<?php echo $data['IDPENGGUNA'] ?>" class="h6 notification-friend"><?php echo $data['NAMA']; ?></a> <?php echo $notifLain['ISI'] ?> </div>
+							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18"><?php echo $notifLain['WAKTUNOTIFIKASI'] ?></time></span>
 						</div>
 										<span class="notification-icon">
 											<svg class="olymp-comments-post-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
@@ -949,47 +928,7 @@ $main_services = new MainServices();
 							<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
 						</div>
 					</li>
-
-					<li class="un-read">
-						<div class="author-thumb">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar63-sm.jpg" alt="author">
-						</div>
-						<div class="notification-event">
-							<div>You and <a href="#" class="h6 notification-friend">Nicholas Grissom</a> just became friends. Write on <a href="#" class="notification-link">his wall</a>.</div>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">9 hours ago</time></span>
-						</div>
-										<span class="notification-icon">
-											<svg class="olymp-happy-face-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-										</span>
-
-						<div class="more">
-							<!-- <svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg> -->
-							<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
-						</div>
-					</li>
-
-					<li class="with-comment-photo">
-						<div class="author-thumb">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar64-sm.jpg" alt="author">
-						</div>
-						<div class="notification-event">
-							<div><a href="#" class="h6 notification-friend">Sarah Hetfield</a> commented on your <a href="#" class="notification-link">photo</a>.</div>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 5:32am</time></span>
-						</div>
-										<span class="notification-icon">
-											<svg class="olymp-comments-post-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use></svg>
-										</span>
-
-						<div class="comment-photo">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/comment-photo1.jpg" alt="photo">
-							<span>“She looks incredible in that outfit! We should see each...”</span>
-						</div>
-
-						<div class="more">
-							<!-- <svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg> -->
-							<svg class="olymp-little-delete"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
-						</div>
-					</li>
+				<?php } ?>
 				</ul>
 
 				<!-- <a href="#" class="view-all bg-primary">View All Notifications</a> -->
@@ -1000,11 +939,11 @@ $main_services = new MainServices();
 		<div class="tab-pane " id="search" role="tabpanel">
 
 
-				<form class="search-bar w-search notification-list friend-requests">
+				<!-- <form class="search-bar w-search notification-list friend-requests">
 					<div class="form-group with-button">
 						<input class="form-control js-user-search" placeholder="Search here people or pages..." type="text">
 					</div>
-				</form>
+				</form> -->
 
 
 		</div>
@@ -1052,202 +991,7 @@ $main_services = new MainServices();
 
 
 
-<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-<div class="ui-block popup-chat popup-chat-responsive" tabindex="-1" role="dialog" aria-labelledby="update-header-photo" aria-hidden="true">
-
-	<div class="modal-content">
-		<div class="modal-header">
-			<span class="icon-status online"></span>
-			<h6 class="title" >Chat</h6>
-			<div class="more">
-				<!-- <svg class="olymp-three-dots-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg> -->
-				<svg class="olymp-little-delete js-chat-open"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
-			</div>
-		</div>
-		<div class="modal-body">
-			<div class="mCustomScrollbar">
-				<ul class="notification-list chat-message chat-message-field">
-					<li>
-						<div class="author-thumb">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/avatar14-sm.jpg" alt="author" class="mCS_img_loaded">
-						</div>
-						<div class="notification-event">
-							<span class="chat-message-item">Hi James! Please remember to buy the food for tomorrow!</span>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
-						</div>
-					</li>
-
-					<li>
-						<div class="author-thumb">
-							<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/author-page.jpg" alt="author" class="mCS_img_loaded">
-						</div>
-						<div class="notification-event">
-							<span class="chat-message-item">Don’t worry Mathilda!</span>
-							<span class="chat-message-item">I already bought everything</span>
-							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:29pm</time></span>
-						</div>
-					</li>
-				</ul>
-			</div>
-
-			<form class="need-validation">
-    		<div class="form-group label-floating is-empty">
-    			<label class="control-label">Press enter to post...</label>
-    			<textarea class="form-control" placeholder=""></textarea>
-    			<div class="add-options-message">
-    				<!-- <a href="#" class="options-message">
-    					<svg class="olymp-computer-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
-    				</a> -->
-    				<div class="options-message smile-block">
-
-    					<svg class="olymp-happy-sticker-icon"><use xlink:href="<?php echo Yii::$app->request->BaseUrl ?>/olympus/svg-icons/sprites/icons.svg#olymp-happy-sticker-icon"></use></svg>
-
-    					<ul class="more-dropdown more-with-triangle triangle-bottom-right">
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat1.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat2.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat3.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat4.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat5.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat6.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat7.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat8.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat9.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat10.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat11.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat12.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat13.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat14.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat15.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat16.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat17.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat18.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat19.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat20.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat21.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat22.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat23.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat24.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat25.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat26.png" alt="icon">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="<?php echo Yii::$app->request->BaseUrl ?>/olympus/img/icon-chat27.png" alt="icon">
-    							</a>
-    						</li>
-    					</ul>
-    				</div>
-    			</div>
-    		</div>
-	    </form>
-		</div>
-	</div>
-
-</div>
 
 <!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
